@@ -25,6 +25,7 @@ public class RequestAccountDetailsEvent extends RequestReadEvent {
 	 * @return the id
 	 */
 	public UUID getId() {
+		
 		return id;
 	}
 	

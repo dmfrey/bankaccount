@@ -11,9 +11,11 @@ import org.springframework.integration.annotation.Transformer;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
+import io.pivotal.bankaccount.event.account.AccountBalanceDetailsEvent;
 import io.pivotal.bankaccount.event.account.AccountCreatedEvent;
 import io.pivotal.bankaccount.event.account.AccountUpdatedEvent;
 import io.pivotal.bankaccount.event.account.FundsTransferedEvent;
+import io.pivotal.bankaccount.event.account.RequestAccountBalanceDetailsEvent;
 import io.pivotal.bankaccount.event.account.RequestAccountBalanceUpdateEvent;
 import io.pivotal.bankaccount.event.account.RequestTransferFundsEvent;
 import io.pivotal.bankaccount.persistence.service.AccountBalancePersistenceService;
@@ -74,6 +76,16 @@ public class AccountBalanceHandler {
 		
 		log.debug( "requestTransferFunds : exit" );
 		return FundsTransferedEvent.notTransfered( event.getJobId(), event.getFromAccountNumber(), event.getToAccountNumber(), event.getAmount() );
+	}
+
+	@ServiceActivator( inputChannel = "requestAccountBalanceDetailsChannel" )
+	public AccountBalanceDetailsEvent  requestAccountBalance( Message<RequestAccountBalanceDetailsEvent> message ) {
+		log.debug( "requestAccountBalance : enter" );
+		
+		RequestAccountBalanceDetailsEvent event = message.getPayload();
+		
+		log.debug( "requestAccountBalance : exit" );
+		return AccountBalanceDetailsEvent.notFound( event.getAccountNumber() );
 	}
 
 }

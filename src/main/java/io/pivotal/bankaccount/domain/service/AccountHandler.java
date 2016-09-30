@@ -10,10 +10,16 @@ import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
+import io.pivotal.bankaccount.event.account.AccountBalanceDetailsEvent;
 import io.pivotal.bankaccount.event.account.AccountCreatedEvent;
 import io.pivotal.bankaccount.event.account.AccountDetailsEvent;
+import io.pivotal.bankaccount.event.account.AccountHistoryDetailsEvent;
 import io.pivotal.bankaccount.event.account.CreateAccountEvent;
+import io.pivotal.bankaccount.event.account.RequestAccountBalanceDetailsEvent;
 import io.pivotal.bankaccount.event.account.RequestAccountDetailsEvent;
+import io.pivotal.bankaccount.event.account.RequestAccountHistoryDetailsEvent;
+import io.pivotal.bankaccount.persistence.service.AccountBalancePersistenceService;
+import io.pivotal.bankaccount.persistence.service.AccountHistoryPersistenceService;
 import io.pivotal.bankaccount.persistence.service.AccountPersistenceService;
 
 /**
@@ -25,12 +31,16 @@ public class AccountHandler {
 
 	private static final Logger log = LoggerFactory.getLogger( AccountHandler.class );
 	
-	private final AccountPersistenceService service;
+	private final AccountPersistenceService accountService;
+	private final AccountBalancePersistenceService accountBalanceService;
+	private final AccountHistoryPersistenceService accountHistoryService;
 	
 	@Autowired
-	private AccountHandler( final AccountPersistenceService service ) {
+	private AccountHandler( final AccountPersistenceService accountService, final AccountBalancePersistenceService accountBalanceService, final AccountHistoryPersistenceService accountHistoryService ) {
 		
-		this.service = service;
+		this.accountService = accountService;
+		this.accountBalanceService = accountBalanceService;
+		this.accountHistoryService = accountHistoryService;
 		
 	}
 	
@@ -41,7 +51,7 @@ public class AccountHandler {
 		CreateAccountEvent event = message.getPayload();
 		
 		log.debug( "createAccount : exit" );
-		return service.requestCreateAccount( event );
+		return accountService.requestCreateAccount( event );
 	}
 	
 	@ServiceActivator( inputChannel = "accountCreatedChannel" )
@@ -57,10 +67,27 @@ public class AccountHandler {
 		
 		RequestAccountDetailsEvent event = message.getPayload();
 		
-		AccountDetailsEvent found = service.requestAccountDetails( event );
+		AccountDetailsEvent accountDetails = accountService.requestAccountDetails( event );
+		if( accountDetails.isFound() ) {
+		
+			AccountBalanceDetailsEvent accountBalance = accountBalanceService.getBalance( new RequestAccountBalanceDetailsEvent( accountDetails.getAccount().getAccountNumber() ) );
+			if( accountBalance.isFound() ) {
+				
+				accountDetails.setBalance( accountBalance.getBalance() );
+				
+			}
+			
+			AccountHistoryDetailsEvent accountHistory = accountHistoryService.getAccountHistory( new RequestAccountHistoryDetailsEvent( accountDetails.getAccount().getAccountNumber() ) );
+			if( accountHistory.isFound() ) {
+				
+				accountDetails.setHistory( accountHistory.getAccountHistories() );
+				
+			}
+			
+		}
 		
 		log.debug( "accountDetails : exit" );
-		return found;
+		return accountDetails;
 	}
 
 }

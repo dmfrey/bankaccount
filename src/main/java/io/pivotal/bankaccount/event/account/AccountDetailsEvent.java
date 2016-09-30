@@ -3,9 +3,11 @@
  */
 package io.pivotal.bankaccount.event.account;
 
+import java.util.List;
 import java.util.UUID;
 
 import io.pivotal.bankaccount.domain.model.Account;
+import io.pivotal.bankaccount.domain.model.AccountHistory;
 import io.pivotal.bankaccount.event.ReadEvent;
 
 /**
@@ -16,6 +18,9 @@ public class AccountDetailsEvent extends ReadEvent {
 
 	private final UUID id;
 	private final Account account;
+	
+	private Double balance;
+	private List<AccountHistory> history;
 	
 	public AccountDetailsEvent( final UUID id, final Account account ) {
 		
@@ -41,6 +46,40 @@ public class AccountDetailsEvent extends ReadEvent {
 		return account;
 	}
 	
+	/**
+	 * @return the balance
+	 */
+	public Double getBalance() {
+		
+		return balance;
+	}
+
+	/**
+	 * @param balance the balance to set
+	 */
+	public void setBalance( Double balance ) {
+		
+		this.balance = balance;
+	
+	}
+
+	/**
+	 * @return the history
+	 */
+	public List<AccountHistory> getHistory() {
+		
+		return history;
+	}
+
+	/**
+	 * @param history the history to set
+	 */
+	public void setHistory( List<AccountHistory> history ) {
+		
+		this.history = history;
+	
+	}
+
 	public static AccountDetailsEvent notFound( final UUID id ) {
 		
 		AccountDetailsEvent event = new AccountDetailsEvent( id, null );

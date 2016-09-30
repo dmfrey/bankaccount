@@ -44,6 +44,12 @@ public class IntegrationConfig {
 	}
 
 	@Bean
+	public MessageChannel requestAccountBalanceDetailsChannel() {
+		
+		return new DirectChannel();
+	}
+
+	@Bean
 	public MessageChannel requestAccountBalanceUpdateChannel() {
 		
 		return new DirectChannel();
