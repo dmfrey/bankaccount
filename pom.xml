@@ -6,7 +6,7 @@
 	<groupId>io.pivotal.bankaccount</groupId>
 	<artifactId>bank-account</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 
 	<name>bank-account</name>
 	<description>Demo project for Spring Boot</description>
@@ -26,51 +26,15 @@
 
 	<dependencies>
 	
-		<!-- Spring dependencies -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-redis</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-integration</artifactId>
-		</dependency>
-		<dependency>
-      		<groupId>org.springframework.integration</groupId>
-      		<artifactId>spring-integration-http</artifactId>
-      	</dependency>
-    
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-	
 		<!-- Test dependencies -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	
+		
 	</dependencies>
-
+	
 	<build>
 	
 		<plugins>
@@ -90,4 +54,13 @@
 	
 	</build>
 
+	<modules>
+		<module>event-api</module>
+		<module>account-event-api</module>
+		<module>domain</module>
+		<module>legacy</module>
+		<module>account-persistence</module>
+		<module>account-history-persistence</module>
+		<module>account-balance-persistence</module>
+	</modules>
 </project>
