@@ -17,7 +17,8 @@ public class AccountCreatedEvent extends CreatedEvent {
 	private final UUID id;
 	private final UUID jobId;
 	private final Account account;
-	private final Double amount;
+	
+	private Double amount;
 
 	public AccountCreatedEvent( final UUID id, final UUID jobId, final Account account, final Double amount ) {
 		
@@ -53,6 +54,15 @@ public class AccountCreatedEvent extends CreatedEvent {
 	}
 	
 	/**
+	 * @param amount the amount to set
+	 */
+	public void setAmount( Double amount ) {
+		
+		this.amount = amount;
+	
+	}
+
+	/**
 	 * @return the amount
 	 */
 	public Double getAmount() {
@@ -63,6 +73,7 @@ public class AccountCreatedEvent extends CreatedEvent {
 	public static AccountCreatedEvent notCreated( final UUID jobId, final Account account, final Double amount ) {
 		
 		AccountCreatedEvent event = new AccountCreatedEvent( null, jobId, account, amount );
+		event.amount = amount;
 		event.created = false;
 		
 		return event;

@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -25,12 +26,16 @@ public class AccountHistoryEntity {
     @GeneratedValue( generator = "uuid-gen" )
 	private UUID id;
 
+	@NotNull
 	private UUID jobId;
 	
+	@NotNull
 	private Long accountNumber;
 	
+	@NotNull
 	private Double amount;
 	
+	@NotNull
 	private long dateCreated;
 
 	public AccountHistoryEntity() { }

@@ -17,6 +17,8 @@ public class FundsTransferedEvent extends UpdatedEvent {
 	private final Long fromAccountNumber;
 	private final Long toAccountNumber;
 	private final Double amount;
+	
+	private boolean insuffientFunds;
 
 	public FundsTransferedEvent( final UUID jobId, final Long fromAccountNumber, final Long toAccountNumber, final Double amount ) {
 		
@@ -25,6 +27,7 @@ public class FundsTransferedEvent extends UpdatedEvent {
 		this.toAccountNumber = toAccountNumber;
 		this.amount = amount;
 		this.updated = true;
+		this.insuffientFunds = false;
 		
 	}
 
@@ -56,10 +59,27 @@ public class FundsTransferedEvent extends UpdatedEvent {
 		return amount;
 	}
 
+	/**
+	 * @return the insuffientFunds
+	 */
+	public boolean isInsuffientFunds() {
+		
+		return insuffientFunds;
+	}
+
 	public static FundsTransferedEvent notTransfered( final UUID jobId, final Long fromAccountNumber, final Long toAccountNumber, final Double amount ) {
 		
 		FundsTransferedEvent event = new FundsTransferedEvent( jobId, fromAccountNumber, toAccountNumber, amount );
 		event.updated = false;
+		
+		return event;
+	}
+
+	public static FundsTransferedEvent insuffientFunds( final UUID jobId, final Long fromAccountNumber, final Long toAccountNumber, final Double amount ) {
+		
+		FundsTransferedEvent event = new FundsTransferedEvent( jobId, fromAccountNumber, toAccountNumber, amount );
+		event.updated = false;
+		event.insuffientFunds = true;
 		
 		return event;
 	}

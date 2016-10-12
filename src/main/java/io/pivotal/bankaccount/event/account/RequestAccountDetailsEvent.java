@@ -14,10 +14,19 @@ import io.pivotal.bankaccount.event.RequestReadEvent;
 public class RequestAccountDetailsEvent extends RequestReadEvent {
 
 	private final UUID id;
+	private final Long accountNumber;
 	
 	public RequestAccountDetailsEvent( final UUID id ) {
 		
 		this.id = id;
+		this.accountNumber = null;
+		
+	}
+
+	public RequestAccountDetailsEvent( final Long accountNumber ) {
+		
+		this.id = null;
+		this.accountNumber = accountNumber;
 		
 	}
 
@@ -27,6 +36,14 @@ public class RequestAccountDetailsEvent extends RequestReadEvent {
 	public UUID getId() {
 		
 		return id;
+	}
+
+	/**
+	 * @return the accountNumber
+	 */
+	public Long getAccountNumber() {
+		
+		return accountNumber;
 	}
 	
 }

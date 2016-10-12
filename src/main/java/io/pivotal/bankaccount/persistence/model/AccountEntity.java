@@ -5,6 +5,7 @@ import java.util.UUID;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -18,6 +19,7 @@ public class AccountEntity {
     @GeneratedValue( generator = "uuid-gen" )
 	private UUID id;
 	
+	@NotNull
 	private Long accountNumber;
 		
 	public AccountEntity() { }

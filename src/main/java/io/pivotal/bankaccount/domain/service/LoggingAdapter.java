@@ -19,7 +19,7 @@ public class LoggingAdapter {
 
 	private static final Logger log = LoggerFactory.getLogger( LoggingAdapter.class );
 	
-	@Transformer( inputChannel = "requestChannel", outputChannel = "responseChannel" )
+//	@Transformer( inputChannel = "requestChannel", outputChannel = "responseChannel" )
 	public CreateAccountEvent logEvent( CreateAccountEvent event ) {
 		
 		log.info( "CreateAccountEvent[jobId=" + event.getJobId() + ", account=" + event.getAccount() + ", initialAmount=" + event.getInitialAmount() + "]" );

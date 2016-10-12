@@ -7,6 +7,6 @@ package io.pivotal.bankaccount.event;
  * @author dmfrey
  *
  */
-public class RequestReadEvent {
+public class RequestReadEvent implements Event {
 
 }

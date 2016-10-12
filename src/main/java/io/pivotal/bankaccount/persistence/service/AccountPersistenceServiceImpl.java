@@ -72,9 +72,20 @@ public class AccountPersistenceServiceImpl implements AccountPersistenceService 
 		log.debug( "requestAccountDetails : enter" );
 	
 		Assert.notNull( event );
-		Assert.notNull( event.getId() );
+
+		AccountEntity found = null;
+		if( null != event.getId() ) {
+			log.debug( "requestAccountDetails : looking up account by id" );
+			
+			found = repository.findOne( event.getId() );
 		
-		AccountEntity found = repository.findOne( event.getId() );
+		} else if( null != event.getAccountNumber() ) {
+			log.debug( "requestAccountDetails : looking up account by accountNumber" );
+			
+			found = repository.findByAccountNumber( event.getAccountNumber() );
+			
+		}
+		
 		if( null != found ) {
 			
 			if( log.isTraceEnabled() ) {

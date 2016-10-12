@@ -1,6 +1,6 @@
 package io.pivotal.bankaccount.event;
 
-public class UpdatedEvent {
+public class UpdatedEvent implements Event {
 
 	protected boolean updated;
 	

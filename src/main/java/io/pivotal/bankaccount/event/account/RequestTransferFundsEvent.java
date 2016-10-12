@@ -62,5 +62,14 @@ public class RequestTransferFundsEvent extends UpdateEvent {
 	
 		return amount;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "RequestTransferFundsEvent [jobId=" + jobId + ", fromAccountNumber=" + fromAccountNumber
+				+ ", toAccountNumber=" + toAccountNumber + ", amount=" + amount + "]";
+	}
 	
 }

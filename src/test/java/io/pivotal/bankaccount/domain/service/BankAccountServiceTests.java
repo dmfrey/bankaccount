@@ -23,7 +23,9 @@ import io.pivotal.bankaccount.domain.model.Account;
 import io.pivotal.bankaccount.event.account.AccountCreatedEvent;
 import io.pivotal.bankaccount.event.account.AccountDetailsEvent;
 import io.pivotal.bankaccount.event.account.CreateAccountEvent;
+import io.pivotal.bankaccount.event.account.FundsTransferedEvent;
 import io.pivotal.bankaccount.event.account.RequestAccountDetailsEvent;
+import io.pivotal.bankaccount.event.account.RequestTransferFundsEvent;
 
 /**
  * @author dmfrey
@@ -49,6 +51,8 @@ public class BankAccountServiceTests {
 		assertThat( event.getId(), not( nullValue() ) );
 		assertThat( event.getJobId(), not( nullValue() ) );
 		assertThat( event.getAccount(), not( nullValue() ) );
+		assertThat( event.getAmount(), not( nullValue() ) );
+		assertThat( event.getAmount(), equalTo( 100.00 ) );
 		
 	}
 	
@@ -73,6 +77,37 @@ public class BankAccountServiceTests {
 		Account found = event.getAccount();
 		assertThat( found.getId(), not(  nullValue()  ) );
 		assertThat( found.getAccountNumber(), equalTo( account.getAccountNumber() ) );
+		
+	}
+	
+	@Test
+	public void testTransfer() throws Exception {
+
+		Account from = new Account();
+		from.setAccountNumber( 1234567890L );
+		service.createAccount( new CreateAccountEvent( UUID.randomUUID(), from, 100.00 ) );
+
+		Account to = new Account();
+		to.setAccountNumber( 1234567891L );
+		service.createAccount( new CreateAccountEvent( UUID.randomUUID(), to, 100.00 ) );
+
+		RequestTransferFundsEvent request = new RequestTransferFundsEvent( UUID.randomUUID(), from.getAccountNumber(), to.getAccountNumber(), 50.00 );
+		FundsTransferedEvent fundsTransferedEvent = service.transfer( request );
+		assertThat( fundsTransferedEvent, not( nullValue() ) );
+		assertThat( fundsTransferedEvent.getJobId(), not( nullValue() ) );
+		assertThat( fundsTransferedEvent.getFromAccountNumber(), not( nullValue() ) );
+		assertThat( fundsTransferedEvent.getToAccountNumber(), not( nullValue() ) );
+		assertThat( fundsTransferedEvent.getAmount(), not( nullValue() ) );
+		assertThat( fundsTransferedEvent.getAmount(), equalTo( 50.00 ) );
+		assertThat( fundsTransferedEvent.isUpdated(), equalTo( true ) );
+
+		AccountDetailsEvent fromEvent = service.getAccount( new RequestAccountDetailsEvent( from.getId() ) );
+		assertThat( fromEvent, not( nullValue() ) );
+		assertThat( fromEvent.getBalance(), equalTo( 50.00 ) );
+		
+		AccountDetailsEvent toEvent = service.getAccount( new RequestAccountDetailsEvent( to.getId() ) );
+		assertThat( toEvent, not( nullValue() ) );
+		assertThat( toEvent.getBalance(), equalTo( 150.00 ) );
 		
 	}
 	

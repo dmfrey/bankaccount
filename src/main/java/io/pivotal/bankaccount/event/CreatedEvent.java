@@ -7,7 +7,7 @@ package io.pivotal.bankaccount.event;
  * @author dmfrey
  *
  */
-public class CreatedEvent {
+public class CreatedEvent implements Event {
 
 	protected boolean created;
 	
