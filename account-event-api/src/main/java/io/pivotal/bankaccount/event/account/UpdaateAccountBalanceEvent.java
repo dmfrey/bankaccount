@@ -11,13 +11,13 @@ import io.pivotal.bankaccount.event.UpdateEvent;
  * @author dmfrey
  *
  */
-public class RequestAccountBalanceUpdateEvent extends UpdateEvent {
+public class UpdaateAccountBalanceEvent extends UpdateEvent {
 
 	private final UUID jobId;
 	private final Long accountNumber;
 	private final Double amount;
 
-	public RequestAccountBalanceUpdateEvent( final UUID jobId, final Long accountNumber, final Double amount ) {
+	public UpdaateAccountBalanceEvent( final UUID jobId, final Long accountNumber, final Double amount ) {
 		
 		this.jobId = jobId;
 		this.accountNumber = accountNumber;

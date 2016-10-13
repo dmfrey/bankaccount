@@ -29,10 +29,10 @@ import io.pivotal.bankaccount.event.account.AccountHistoryDetailsEvent;
 import io.pivotal.bankaccount.event.account.CreateAccountEvent;
 import io.pivotal.bankaccount.event.account.CreateAccountHistoryEvent;
 import io.pivotal.bankaccount.event.account.RequestAccountBalanceDetailsEvent;
-import io.pivotal.bankaccount.event.account.RequestAccountBalanceUpdateEvent;
+import io.pivotal.bankaccount.event.account.UpdaateAccountBalanceEvent;
 import io.pivotal.bankaccount.event.account.RequestAccountDetailsEvent;
 import io.pivotal.bankaccount.event.account.RequestAccountHistoryDetailsEvent;
-import io.pivotal.bankaccount.event.account.RequestTransferFundsEvent;
+import io.pivotal.bankaccount.event.account.TransferFundsEvent;
 import io.pivotal.bankaccount.persistence.service.AccountBalancePersistenceService;
 import io.pivotal.bankaccount.persistence.service.AccountHistoryPersistenceService;
 import io.pivotal.bankaccount.persistence.service.AccountPersistenceService;
@@ -75,10 +75,10 @@ public class IntegrationConfig {
 								.channel( "accountCreatedAggregateFlow.input" )
 							)
 							.subscribe( s -> s
-								.<AccountCreatedEvent, RequestAccountBalanceUpdateEvent>transform( event -> 
-									new RequestAccountBalanceUpdateEvent( event.getJobId(), event.getAccount().getAccountNumber(), event.getAmount() )
+								.<AccountCreatedEvent, UpdaateAccountBalanceEvent>transform( event -> 
+									new UpdaateAccountBalanceEvent( event.getJobId(), event.getAccount().getAccountNumber(), event.getAmount() )
 								)
-								.<RequestAccountBalanceUpdateEvent>handle( (p, h) -> accountBalanceService.updateBalance( p ) ) 
+								.<UpdaateAccountBalanceEvent>handle( (p, h) -> accountBalanceService.updateBalance( p ) ) 
 								.channel( "accountCreatedAggregateFlow.input" )
 							) 
 							.subscribe( s -> s
@@ -231,16 +231,16 @@ public class IntegrationConfig {
 				.publishSubscribeChannel( c -> c
 					.applySequence( true )
 					.subscribe( s -> s
-						.<RequestTransferFundsEvent>handle( (p1, h1 ) -> p1 )
+						.<TransferFundsEvent>handle( (p1, h1 ) -> p1 )
 						.channel( "transferFundsAggregateFlow.input" )
 					)
 					.subscribe( s -> s
-						.<RequestTransferFundsEvent, RequestAccountDetailsEvent>transform( event -> new RequestAccountDetailsEvent( event.getFromAccountNumber() )	)
+						.<TransferFundsEvent, RequestAccountDetailsEvent>transform( event -> new RequestAccountDetailsEvent( event.getFromAccountNumber() )	)
 						.<RequestAccountDetailsEvent>handle( (p1, h1 ) -> accountService.requestAccountDetails( p1 ) )
 						.channel( "transferFundsAggregateFlow.input" )
 					)
 					.subscribe( s -> s
-						.<RequestTransferFundsEvent, RequestAccountDetailsEvent>transform( event -> new RequestAccountDetailsEvent( event.getToAccountNumber() )	)
+						.<TransferFundsEvent, RequestAccountDetailsEvent>transform( event -> new RequestAccountDetailsEvent( event.getToAccountNumber() )	)
 						.<RequestAccountDetailsEvent>handle( (p2, h2 ) -> accountService.requestAccountDetails( p2 ) )
 						.channel( "transferFundsAggregateFlow.input" )
 					)

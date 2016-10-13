@@ -13,7 +13,7 @@ import org.springframework.util.Assert;
 import io.pivotal.bankaccount.event.account.AccountBalanceDetailsEvent;
 import io.pivotal.bankaccount.event.account.AccountBalanceUpdatedEvent;
 import io.pivotal.bankaccount.event.account.RequestAccountBalanceDetailsEvent;
-import io.pivotal.bankaccount.event.account.RequestAccountBalanceUpdateEvent;
+import io.pivotal.bankaccount.event.account.UpdaateAccountBalanceEvent;
 
 /**
  * @author dmfrey
@@ -37,7 +37,7 @@ public class AccountBalancePersistenceServiceImpl implements AccountBalancePersi
 	 * @see io.pivotal.bankaccount.persistence.service.AccountBalancePersistenceService#updateBalance(io.pivotal.bankaccount.event.account.RequestAccountBalanceUpdateEvent)
 	 */
 	@Override
-	public AccountBalanceUpdatedEvent updateBalance( RequestAccountBalanceUpdateEvent event ) {
+	public AccountBalanceUpdatedEvent updateBalance( UpdaateAccountBalanceEvent event ) {
 		log.debug( "updateBalance : enter" );
 
 		Assert.notNull( event );

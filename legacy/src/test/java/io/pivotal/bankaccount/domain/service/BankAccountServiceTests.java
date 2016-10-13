@@ -26,7 +26,7 @@ import io.pivotal.bankaccount.event.account.AccountDetailsEvent;
 import io.pivotal.bankaccount.event.account.CreateAccountEvent;
 import io.pivotal.bankaccount.event.account.FundsTransferedEvent;
 import io.pivotal.bankaccount.event.account.RequestAccountDetailsEvent;
-import io.pivotal.bankaccount.event.account.RequestTransferFundsEvent;
+import io.pivotal.bankaccount.event.account.TransferFundsEvent;
 
 /**
  * @author dmfrey
@@ -93,7 +93,7 @@ public class BankAccountServiceTests {
 		to.setAccountNumber( 1234567891L );
 		service.createAccount( new CreateAccountEvent( UUID.randomUUID(), to, 100.00 ) );
 
-		RequestTransferFundsEvent request = new RequestTransferFundsEvent( UUID.randomUUID(), from.getAccountNumber(), to.getAccountNumber(), 50.00 );
+		TransferFundsEvent request = new TransferFundsEvent( UUID.randomUUID(), from.getAccountNumber(), to.getAccountNumber(), 50.00 );
 		FundsTransferedEvent fundsTransferedEvent = service.transfer( request );
 		assertThat( fundsTransferedEvent, not( nullValue() ) );
 		assertThat( fundsTransferedEvent.getJobId(), not( nullValue() ) );

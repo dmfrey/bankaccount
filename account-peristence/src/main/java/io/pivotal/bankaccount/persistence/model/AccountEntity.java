@@ -11,6 +11,10 @@ import org.hibernate.annotations.GenericGenerator;
 
 import io.pivotal.bankaccount.domain.model.Account;
 
+/**
+ * @author dmfrey
+ *
+ */
 @Entity( name = "Account" )
 public class AccountEntity {
 

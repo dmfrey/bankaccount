@@ -11,7 +11,7 @@ import io.pivotal.bankaccount.event.UpdateEvent;
  * @author dmfrey
  *
  */
-public class RequestTransferFundsEvent extends UpdateEvent {
+public class TransferFundsEvent extends UpdateEvent {
 
 	private final UUID jobId;
 	private final Long fromAccountNumber;
@@ -22,7 +22,7 @@ public class RequestTransferFundsEvent extends UpdateEvent {
 	 * @param accountNumber
 	 * @param amount
 	 */
-	public RequestTransferFundsEvent( final UUID jobId, final Long fromAccountNumber, final Long toAccountNumber, final Double amount ) {
+	public TransferFundsEvent( final UUID jobId, final Long fromAccountNumber, final Long toAccountNumber, final Double amount ) {
 		
 		this.jobId = jobId;
 		this.fromAccountNumber = fromAccountNumber;
