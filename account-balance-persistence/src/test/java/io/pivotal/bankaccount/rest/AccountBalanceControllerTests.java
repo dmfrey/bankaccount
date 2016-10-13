@@ -3,12 +3,15 @@
  */
 package io.pivotal.bankaccount.rest;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Test;
@@ -49,6 +52,9 @@ public class AccountBalanceControllerTests {
 		mockMvc.perform( get( "/" + String.valueOf( accountNumber ) )
 				.accept( MediaType.APPLICATION_JSON ) )
 				.andExpect( status().isOk() )
+				.andExpect( jsonPath( "$.found", is( true ) ) )
+				.andExpect( jsonPath( "$.accountNumber", is( 1234567890 ) ) )
+				.andExpect( jsonPath( "$.balance", is( 100.00 ) ) )
 				.andDo( print() );
 		
 		verify( service, times( 1 ) ).getBalance( any( RequestAccountBalanceDetailsEvent.class ) );
