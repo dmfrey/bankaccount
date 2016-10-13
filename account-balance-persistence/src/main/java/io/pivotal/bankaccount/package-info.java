@@ -5,4 +5,4 @@
  * @author dmfrey
  *
  */
-package io.pivotal.bankaccount.persistence;
+package io.pivotal.bankaccount;

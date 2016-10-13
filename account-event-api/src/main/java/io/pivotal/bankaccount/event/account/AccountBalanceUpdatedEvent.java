@@ -55,6 +55,16 @@ public class AccountBalanceUpdatedEvent extends UpdatedEvent {
 		return amount;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+
+		return "AccountBalanceUpdatedEvent [jobId=" + jobId + ", accountNumber=" + accountNumber + ", amount=" + amount
+				+ "]";
+	}
+
 	public static AccountBalanceUpdatedEvent notUpdated( final UUID jobId, final Long accountNumber, final Double amount ) {
 		
 		AccountBalanceUpdatedEvent event = new AccountBalanceUpdatedEvent( jobId, accountNumber, amount );

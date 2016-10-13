@@ -29,7 +29,7 @@ import io.pivotal.bankaccount.event.account.AccountHistoryDetailsEvent;
 import io.pivotal.bankaccount.event.account.CreateAccountEvent;
 import io.pivotal.bankaccount.event.account.CreateAccountHistoryEvent;
 import io.pivotal.bankaccount.event.account.RequestAccountBalanceDetailsEvent;
-import io.pivotal.bankaccount.event.account.UpdaateAccountBalanceEvent;
+import io.pivotal.bankaccount.event.account.UpdateAccountBalanceEvent;
 import io.pivotal.bankaccount.event.account.RequestAccountDetailsEvent;
 import io.pivotal.bankaccount.event.account.RequestAccountHistoryDetailsEvent;
 import io.pivotal.bankaccount.event.account.TransferFundsEvent;
@@ -75,10 +75,10 @@ public class IntegrationConfig {
 								.channel( "accountCreatedAggregateFlow.input" )
 							)
 							.subscribe( s -> s
-								.<AccountCreatedEvent, UpdaateAccountBalanceEvent>transform( event -> 
-									new UpdaateAccountBalanceEvent( event.getJobId(), event.getAccount().getAccountNumber(), event.getAmount() )
+								.<AccountCreatedEvent, UpdateAccountBalanceEvent>transform( event -> 
+									new UpdateAccountBalanceEvent( event.getJobId(), event.getAccount().getAccountNumber(), event.getAmount() )
 								)
-								.<UpdaateAccountBalanceEvent>handle( (p, h) -> accountBalanceService.updateBalance( p ) ) 
+								.<UpdateAccountBalanceEvent>handle( (p, h) -> accountBalanceService.updateBalance( p ) ) 
 								.channel( "accountCreatedAggregateFlow.input" )
 							) 
 							.subscribe( s -> s

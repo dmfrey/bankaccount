@@ -38,6 +38,15 @@ public class AccountBalanceDetailsEvent extends ReadEvent {
 		return balance;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+
+		return "AccountBalanceDetailsEvent [accountNumber=" + accountNumber + ", balance=" + balance + "]";
+	}
+
 	public static AccountBalanceDetailsEvent notFound( final Long accountNumber ) {
 		
 		AccountBalanceDetailsEvent event = new AccountBalanceDetailsEvent( accountNumber, null );

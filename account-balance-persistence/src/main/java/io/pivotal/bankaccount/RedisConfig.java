@@ -1,7 +1,7 @@
 /**
  * 
  */
-package io.pivotal.bankaccount.persistence;
+package io.pivotal.bankaccount;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
