@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import io.pivotal.bankaccount.event.account.AccountBalanceDetailsEvent;
@@ -20,6 +21,7 @@ import io.pivotal.bankaccount.event.account.UpdateAccountBalanceEvent;
  *
  */
 @Service
+@Transactional( readOnly = true )
 public class AccountBalancePersistenceService {
 
 	private static final Logger log = LoggerFactory.getLogger( AccountBalancePersistenceService.class );
@@ -37,6 +39,7 @@ public class AccountBalancePersistenceService {
 	 * @param event
 	 * @return
 	 */
+	@Transactional( readOnly = false )
 	public AccountBalanceUpdatedEvent updateBalance( UpdateAccountBalanceEvent event ) {
 		log.debug( "updateBalance : enter" );
 
