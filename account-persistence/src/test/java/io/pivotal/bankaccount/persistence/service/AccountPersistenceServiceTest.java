@@ -17,6 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.web.client.RestTemplate;
 
 import io.pivotal.bankaccount.domain.model.Account;
 import io.pivotal.bankaccount.event.account.AccountCreatedEvent;
@@ -35,6 +36,9 @@ public class AccountPersistenceServiceTest {
 	@Mock
 	private AccountRepository repository;
 	
+	@Mock
+	private RestTemplate restTemplate;
+	
 	private AccountPersistenceService service;
 	
 	@Before
@@ -42,7 +46,7 @@ public class AccountPersistenceServiceTest {
 		
 		MockitoAnnotations.initMocks( this );
 	
-		service = new AccountPersistenceService( repository );
+		service = new AccountPersistenceService( repository, restTemplate );
 		
 	}
 

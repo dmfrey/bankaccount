@@ -18,7 +18,7 @@ public class AccountBalanceDetailsEvent extends ReadEvent {
 	private final Double balance;
 	
 	@JsonCreator
-	public AccountBalanceDetailsEvent( @JsonProperty( "accountNumber" ) final Long accountNumber, @JsonProperty( "accountNumber" ) final Double balance ) {
+	public AccountBalanceDetailsEvent( @JsonProperty( "accountNumber" ) final Long accountNumber, @JsonProperty( "balance" ) final Double balance ) {
 		
 		this.accountNumber = accountNumber;
 		this.balance = balance;

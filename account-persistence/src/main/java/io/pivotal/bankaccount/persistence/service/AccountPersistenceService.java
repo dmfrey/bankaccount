@@ -9,9 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.web.client.RestTemplate;
 
+import io.pivotal.bankaccount.event.account.AccountBalanceDetailsEvent;
 import io.pivotal.bankaccount.event.account.AccountCreatedEvent;
 import io.pivotal.bankaccount.event.account.AccountDetailsEvent;
+import io.pivotal.bankaccount.event.account.AccountHistoryDetailsEvent;
 import io.pivotal.bankaccount.event.account.CreateAccountEvent;
 import io.pivotal.bankaccount.event.account.RequestAccountDetailsEvent;
 import io.pivotal.bankaccount.persistence.model.AccountEntity;
@@ -28,11 +31,13 @@ public class AccountPersistenceService {
 	private static final Logger log = LoggerFactory.getLogger( AccountPersistenceService.class );
 	
 	private final AccountRepository repository;
+	private final RestTemplate restTemplate;
 	
 	@Autowired
-	public AccountPersistenceService( final AccountRepository repository ) {
+	public AccountPersistenceService( final AccountRepository repository, final RestTemplate restTemplate ) {
 		
 		this.repository = repository;
+		this.restTemplate = restTemplate;
 		
 	}
 	
@@ -91,6 +96,22 @@ public class AccountPersistenceService {
 		
 		if( null != found ) {
 			
+			AccountDetailsEvent details = new AccountDetailsEvent( found.getId(), found.toAccount() );
+			
+			AccountBalanceDetailsEvent balance = restTemplate.getForObject( "http://localhost:8083/" + event.getAccountNumber(), AccountBalanceDetailsEvent.class );
+			if( null != balance && balance.isFound() ) {
+				
+				details.setBalance( balance.getBalance() );
+				
+			}
+
+			AccountHistoryDetailsEvent history = restTemplate.getForObject( "http://localhost:8082/" + event.getAccountNumber(), AccountHistoryDetailsEvent.class );
+			if( null != history && history.isFound() ) {
+				
+				details.setHistory( history.getAccountHistories() );
+				
+			}
+
 			if( log.isTraceEnabled() ) {
 				
 				log.trace( "requestAccountDetails : found=" + found.toString() );
@@ -98,7 +119,7 @@ public class AccountPersistenceService {
 			}
 			
 			log.debug( "requestAccountDetails : exit" );
-			return new AccountDetailsEvent( found.getId(), found.toAccount() );
+			return details; 
 		}
 		
 		log.debug( "requestAccountDetails : exit, account not found!" );
