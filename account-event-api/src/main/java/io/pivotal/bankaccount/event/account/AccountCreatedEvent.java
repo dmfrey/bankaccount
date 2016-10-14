@@ -74,6 +74,16 @@ public class AccountCreatedEvent extends CreatedEvent {
 		return amount;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+
+		return "AccountCreatedEvent [id=" + id + ", jobId=" + jobId + ", account=" + account + ", amount=" + amount
+				+ "]";
+	}
+
 	public static AccountCreatedEvent notCreated( final UUID jobId, final Account account, final Double amount ) {
 		
 		AccountCreatedEvent event = new AccountCreatedEvent( null, jobId, account, amount );
