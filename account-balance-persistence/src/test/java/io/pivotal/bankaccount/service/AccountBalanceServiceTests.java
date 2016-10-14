@@ -19,7 +19,9 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import io.pivotal.bankaccount.domain.model.Account;
 import io.pivotal.bankaccount.event.account.AccountBalanceUpdatedEvent;
+import io.pivotal.bankaccount.event.account.AccountCreatedEvent;
 import io.pivotal.bankaccount.event.account.UpdateAccountBalanceEvent;
 import io.pivotal.bankaccount.persistence.service.AccountBalancePersistenceService;
 
@@ -52,7 +54,11 @@ public class AccountBalanceServiceTests {
 		AccountBalanceUpdatedEvent event = new AccountBalanceUpdatedEvent( jobId, accountNumber, amount );
 		given( persistence.updateBalance( any( UpdateAccountBalanceEvent.class ) ) ).willReturn( event );
 		
-		UpdateAccountBalanceEvent request = new UpdateAccountBalanceEvent( jobId, accountNumber, amount );
+		Account account = new Account();
+		account.setId( UUID.randomUUID() );
+		account.setAccountNumber( accountNumber );
+		
+		AccountCreatedEvent request = new AccountCreatedEvent( jobId, account.getId(), account, amount );
 		AccountBalanceUpdatedEvent updated = service.updateBalance( request );
 		assertThat( updated, not( nullValue() ) );
 		assertThat( updated.getJobId(), not( nullValue() ) );
@@ -62,7 +68,7 @@ public class AccountBalanceServiceTests {
 		assertThat( updated.getAmount(), not( nullValue() ) );
 		assertThat( updated.getAmount(), equalTo( amount ) );
 		
-		verify( persistence, times( 1 ) ).updateBalance( request );
+		verify( persistence, times( 1 ) ).updateBalance( any( UpdateAccountBalanceEvent.class ) );
 		
 	}
 	

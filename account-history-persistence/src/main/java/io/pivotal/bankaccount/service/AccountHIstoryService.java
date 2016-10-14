@@ -10,6 +10,8 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
 
+import io.pivotal.bankaccount.domain.model.AccountHistory;
+import io.pivotal.bankaccount.event.account.AccountCreatedEvent;
 import io.pivotal.bankaccount.event.account.AccountHistoryCreatedEvent;
 import io.pivotal.bankaccount.event.account.CreateAccountHistoryEvent;
 import io.pivotal.bankaccount.persistence.service.AccountHistoryPersistenceService;
@@ -33,10 +35,16 @@ public class AccountHIstoryService {
 	}
 	
 	@StreamListener( Sink.INPUT )
-	public void addHistory( CreateAccountHistoryEvent event ) {
+	public void addHistory( AccountCreatedEvent event ) {
 		log.debug( "addHistory : enter" );
 		
-		AccountHistoryCreatedEvent updated = service.requestCreateAccountHistory( event );
+		AccountHistory accountHistory = new AccountHistory();
+		accountHistory.setAccountNumber( event.getAccount().getAccountNumber() );
+		accountHistory.setAmount( event.getAmount() );
+		accountHistory.setDateCreated( System.nanoTime() );
+		accountHistory.setJobId( event.getJobId() );
+		
+		AccountHistoryCreatedEvent updated = service.requestCreateAccountHistory( new CreateAccountHistoryEvent( event.getJobId(), accountHistory) );
 		if( log.isTraceEnabled() ) {
 			
 			log.trace( "addHistory : updated=" + updated.toString() );

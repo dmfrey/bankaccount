@@ -12,6 +12,7 @@ import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.messaging.handler.annotation.SendTo;
 
 import io.pivotal.bankaccount.event.account.AccountBalanceUpdatedEvent;
+import io.pivotal.bankaccount.event.account.AccountCreatedEvent;
 import io.pivotal.bankaccount.event.account.UpdateAccountBalanceEvent;
 import io.pivotal.bankaccount.persistence.service.AccountBalancePersistenceService;
 
@@ -35,10 +36,10 @@ public class AccountBalanceService {
 	
 	@StreamListener( Processor.INPUT )
 	@SendTo( Processor.OUTPUT )
-	public AccountBalanceUpdatedEvent updateBalance( UpdateAccountBalanceEvent event ) {
+	public AccountBalanceUpdatedEvent updateBalance( AccountCreatedEvent event ) {
 		log.debug( "updateBalance : enter" );
 		
-		AccountBalanceUpdatedEvent updated = service.updateBalance( event );
+		AccountBalanceUpdatedEvent updated = service.updateBalance( new UpdateAccountBalanceEvent( event.getJobId(), event.getAccount().getAccountNumber(), event.getAmount() ) );
 		if( log.isTraceEnabled() ) {
 			
 			log.trace( "updateBalance : updated=" + updated.toString() );
