@@ -3,6 +3,9 @@
  */
 package io.pivotal.bankaccount.event.account;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.pivotal.bankaccount.event.RequestReadEvent;
 
 /**
@@ -13,7 +16,8 @@ public class RequestAccountBalanceDetailsEvent extends RequestReadEvent {
 
 	private final Long accountNumber;
 
-	public RequestAccountBalanceDetailsEvent( final Long accountNumber ) {
+	@JsonCreator
+	public RequestAccountBalanceDetailsEvent( @JsonProperty( "accountNumber" ) final Long accountNumber ) {
 		
 		this.accountNumber = accountNumber;
 		

@@ -5,6 +5,9 @@ package io.pivotal.bankaccount.event.account;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.pivotal.bankaccount.event.UpdatedEvent;
 
 /**
@@ -22,7 +25,8 @@ public class AccountBalanceUpdatedEvent extends UpdatedEvent {
 	 * @param accountNumber
 	 * @param amount
 	 */
-	public AccountBalanceUpdatedEvent( final UUID jobId, final Long accountNumber, final Double amount ) {
+	@JsonCreator
+	public AccountBalanceUpdatedEvent( @JsonProperty( "jobId" ) final UUID jobId, @JsonProperty( "accountNumber" ) final Long accountNumber, @JsonProperty( "amount" ) final Double amount ) {
 	
 		this.jobId = jobId;
 		this.accountNumber = accountNumber;

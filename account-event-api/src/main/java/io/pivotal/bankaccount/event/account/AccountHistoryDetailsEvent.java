@@ -5,6 +5,9 @@ package io.pivotal.bankaccount.event.account;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.pivotal.bankaccount.domain.model.AccountHistory;
 import io.pivotal.bankaccount.event.ReadEvent;
 
@@ -16,7 +19,8 @@ public class AccountHistoryDetailsEvent extends ReadEvent {
 
 	private final List<AccountHistory> accountHistories;
 	
-	public AccountHistoryDetailsEvent( final List<AccountHistory> accountHistories ) {
+	@JsonCreator
+	public AccountHistoryDetailsEvent( @JsonProperty( "accountHistories" ) final List<AccountHistory> accountHistories ) {
 		
 		this.accountHistories = accountHistories;
 		this.found = true;

@@ -6,6 +6,9 @@ package io.pivotal.bankaccount.event.account;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.pivotal.bankaccount.domain.model.Account;
 import io.pivotal.bankaccount.domain.model.AccountHistory;
 import io.pivotal.bankaccount.event.ReadEvent;
@@ -22,7 +25,8 @@ public class AccountDetailsEvent extends ReadEvent {
 	private Double balance;
 	private List<AccountHistory> history;
 	
-	public AccountDetailsEvent( final UUID id, final Account account ) {
+	@JsonCreator
+	public AccountDetailsEvent( @JsonProperty( "id" ) final UUID id, @JsonProperty( "account" ) final Account account ) {
 		
 		this.id = id;
 		this.account = account;

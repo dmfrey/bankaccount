@@ -5,6 +5,9 @@ package io.pivotal.bankaccount.event.account;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.pivotal.bankaccount.event.UpdatedEvent;
 
 /**
@@ -20,7 +23,8 @@ public class FundsTransferedEvent extends UpdatedEvent {
 	
 	private boolean insuffientFunds;
 
-	public FundsTransferedEvent( final UUID jobId, final Long fromAccountNumber, final Long toAccountNumber, final Double amount ) {
+	@JsonCreator
+	public FundsTransferedEvent( @JsonProperty( "jobId" ) final UUID jobId, @JsonProperty( "fromAccountNumber" ) final Long fromAccountNumber, @JsonProperty( "toAccountNumber" ) final Long toAccountNumber, @JsonProperty( "amount" ) final Double amount ) {
 		
 		this.jobId = jobId;
 		this.fromAccountNumber = fromAccountNumber;
@@ -65,6 +69,17 @@ public class FundsTransferedEvent extends UpdatedEvent {
 	public boolean isInsuffientFunds() {
 		
 		return insuffientFunds;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+
+		return "FundsTransferedEvent [jobId=" + jobId + ", fromAccountNumber=" + fromAccountNumber
+				+ ", toAccountNumber=" + toAccountNumber + ", amount=" + amount + ", insuffientFunds=" + insuffientFunds
+				+ "]";
 	}
 
 	public static FundsTransferedEvent notTransfered( final UUID jobId, final Long fromAccountNumber, final Long toAccountNumber, final Double amount ) {

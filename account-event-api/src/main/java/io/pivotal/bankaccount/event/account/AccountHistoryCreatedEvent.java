@@ -5,6 +5,9 @@ package io.pivotal.bankaccount.event.account;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.pivotal.bankaccount.domain.model.AccountHistory;
 import io.pivotal.bankaccount.event.CreatedEvent;
 
@@ -18,7 +21,8 @@ public class AccountHistoryCreatedEvent extends CreatedEvent {
 	private final UUID jobId;
 	private final AccountHistory accountHistory;
 
-	public AccountHistoryCreatedEvent( final UUID id, final UUID jobId, final AccountHistory accountHistory ) {
+	@JsonCreator
+	public AccountHistoryCreatedEvent( @JsonProperty( "id" ) final UUID id, @JsonProperty( "jobId" ) final UUID jobId, @JsonProperty( "accountHistory" ) final AccountHistory accountHistory ) {
 		
 		this.id = id;
 		this.jobId = jobId;
