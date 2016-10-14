@@ -25,8 +25,6 @@ import io.pivotal.bankaccount.event.account.CreateAccountEvent;
 import io.pivotal.bankaccount.event.account.RequestAccountDetailsEvent;
 import io.pivotal.bankaccount.persistence.model.AccountEntity;
 import io.pivotal.bankaccount.persistence.repository.AccountRepository;
-import io.pivotal.bankaccount.persistence.service.AccountPersistenceService;
-import io.pivotal.bankaccount.persistence.service.AccountPersistenceServiceImpl;
 
 /**
  * @author dmfrey
@@ -44,7 +42,7 @@ public class AccountPersistenceServiceTest {
 		
 		MockitoAnnotations.initMocks( this );
 	
-		service = new AccountPersistenceServiceImpl( repository );
+		service = new AccountPersistenceService( repository );
 		
 	}
 

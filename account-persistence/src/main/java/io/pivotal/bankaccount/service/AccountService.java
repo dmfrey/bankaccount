@@ -1,7 +1,7 @@
 /**
  * 
  */
-package io.pivotal.bankaccount.persistence;
+package io.pivotal.bankaccount.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +33,10 @@ public class AccountService {
 		
 	}
 	
+	/**
+	 * @param event
+	 * @return
+	 */
 	@StreamListener( Processor.INPUT )
 	@SendTo( Processor.OUTPUT )
 	public AccountCreatedEvent createAccount( CreateAccountEvent event ) {
