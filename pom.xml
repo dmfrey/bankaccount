@@ -51,30 +51,12 @@
 	
 	</dependencyManagement>
 
-	<build>
-	
-		<plugins>
-	
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-	
-			<plugin>
-    			<groupId>org.jacoco</groupId>
-    			<artifactId>jacoco-maven-plugin</artifactId>
-    			<version>0.7.7.201606060606</version>
-			</plugin>
-
-		</plugins>
-	
-	</build>
 
 	<modules>
 		<module>event-api</module>
 		<module>account-event-api</module>
 		<module>domain</module>
-		<module>legacy</module>
+		<!-- <module>legacy</module> -->
 		<module>account-persistence</module>
 		<module>account-history-persistence</module>
 		<module>account-balance-persistence</module>
