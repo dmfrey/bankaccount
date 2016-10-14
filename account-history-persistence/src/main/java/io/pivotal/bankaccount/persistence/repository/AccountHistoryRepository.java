@@ -21,4 +21,7 @@ public interface AccountHistoryRepository extends CrudRepository<AccountHistoryE
 	@Query( "from AccountHistory where accountNumber = :accountNumber order by dateCreated desc" )
 	List<AccountHistoryEntity> findAllByAccountNumber( @Param( "accountNumber" ) Long accountNumber );
 	
+	@Query( "from AccountHistory where jobId = :jbId order by dateCreated desc" )
+	List<AccountHistoryEntity> findAllByJobId( @Param( "jobId" ) UUID jobId );
+
 }

@@ -31,6 +31,15 @@ public class AccountHistoryDetailsEvent extends ReadEvent {
 		return accountHistories;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+
+		return "AccountHistoryDetailsEvent [accountHistories=" + accountHistories + "]";
+	}
+
 	public static AccountHistoryDetailsEvent notFound() {
 		
 		AccountHistoryDetailsEvent event = new AccountHistoryDetailsEvent( null );

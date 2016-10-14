@@ -39,14 +39,27 @@ public class AccountHistoryCreatedEvent extends CreatedEvent {
 	 * @return the jobId
 	 */
 	public UUID getJobId() {
+		
 		return jobId;
 	}
 
+	/**
+	 * @return
+	 */
 	public AccountHistory getAccountHistory() {
 		
 		return accountHistory;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+	
+		return "AccountHistoryCreatedEvent [id=" + id + ", jobId=" + jobId + ", accountHistory=" + accountHistory + "]";
+	}
+
 	public static AccountHistoryCreatedEvent notCreated( final UUID jobId, final AccountHistory accountHistory ) {
 		
 		AccountHistoryCreatedEvent event = new AccountHistoryCreatedEvent( null, jobId, accountHistory );
